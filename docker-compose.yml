@@ -1,0 +1,27 @@
+version: "2"
+services:
+  # backend:
+  #   container_name: spring
+  #   build:
+  #     context: .
+  #     dockerfile: backend.dockerfile
+  #   volumes:
+  #     - ./app:/app
+  #   ports:
+  #     - "8000:8000"
+  #   command: bash -c "tail -f /dummy.txt"
+
+  database:
+    container_name: mysql
+    image: mysql:8
+    volumes:
+      - ./database/:/docker-entrypoint-initdb.d/
+    restart: always
+    environment:
+      MYSQL_USER: local
+      MYSQL_PORT: 3306
+      MYSQL_PASSWORD: local123
+      MYSQL_ROOT_PASSWORD: localroot
+      MYSQL_DATABASE: mxdb
+    ports:
+      - "3306:3306"
