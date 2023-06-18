@@ -1,15 +1,18 @@
 version: "2"
 services:
-  # backend:
-  #   container_name: spring
-  #   build:
-  #     context: .
-  #     dockerfile: backend.dockerfile
-  #   volumes:
-  #     - ./app:/app
-  #   ports:
-  #     - "8000:8000"
-  #   command: bash -c "tail -f /dummy.txt"
+  backend:
+    container_name: spring
+    build:
+      context: .
+      dockerfile: backend.dockerfile
+    volumes:
+      - ./app:/app
+    depends_on:
+      database:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    command: bash -c "java -jar /app/target/mx100-0.0.1-SNAPSHOT.jar"
 
   database:
     container_name: mysql
@@ -23,5 +26,9 @@ services:
       MYSQL_PASSWORD: local123
       MYSQL_ROOT_PASSWORD: localroot
       MYSQL_DATABASE: mxdb
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 10s
+      retries: 20
     ports:
       - "3306:3306"

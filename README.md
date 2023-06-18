@@ -7,3 +7,7 @@
 ```
 docker compose up --build
 ```
+4. API Docs
+    - please open https://editor-next.swagger.io/
+    - upload `openapi.yaml` on `app/src/main/resources/openapi.yml`
+    - then you will see the OpenAPI specs
